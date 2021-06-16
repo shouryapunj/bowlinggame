@@ -1,6 +1,6 @@
 # BowlingGame
 
-BowlingGame is built on Java using Springboot framework.
+BowlingGame is built using Java and Springboot framework.
 
 ## How to run
 1) Using IDE - import Project in an IDE such as IntelliJ/Eclipse/STS and run the main method from Application.java
