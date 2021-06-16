@@ -82,6 +82,10 @@ public class GameService {
         List<Integer> frameScores = frame.getFrameScores();
 
         if (input.toUpperCase().equals(BowlingConstants.STRIKE)) {
+            if (this.frameBeingProcessed != 10 && frameRolls.size() > 0) {
+                System.out.println("Invalid input, Second roll in this frame cannot be strike");
+                return false;
+            }
             frameRolls.add("X");
             frameScores.add(10);
             frameProperties.setStrike(true);
