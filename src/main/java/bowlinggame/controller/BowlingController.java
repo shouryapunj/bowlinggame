@@ -1,7 +1,7 @@
 package bowlinggame.controller;
 
 import bowlinggame.dto.Game;
-import bowlinggame.dto.GameService;
+import bowlinggame.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,6 +1,9 @@
-package bowlinggame.dto;
+package bowlinggame.services;
 
 import bowlinggame.constants.BowlingConstants;
+import bowlinggame.dto.Frame;
+import bowlinggame.dto.FrameProperties;
+import bowlinggame.dto.Game;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +19,11 @@ public class GameService {
         this.frameBeingProcessed = 0;
     }
 
+    /**
+     * Checks whether input is valid or not
+     * @param input
+     * @return true/false
+     */
     public boolean isValidInput(String input) {
         if (input.toUpperCase().equals(BowlingConstants.STRIKE)
                 ||  input.toUpperCase().equals(BowlingConstants.SPARE)
@@ -27,6 +35,10 @@ public class GameService {
         }
     }
 
+    /**
+     * Starts a new game
+     * @param game
+     */
     public void startANewGame(Game game) {
         Scanner scanner = new Scanner(System.in);
         this.frameBeingProcessed = 0;
@@ -38,6 +50,7 @@ public class GameService {
             System.out.println("");
             isValid =  isValidInput(input);
             if (!isValid) {
+                System.out.println("Invalid Input! Please enter again (strike/miss/spare/[1-9]) !");
                 continue;
             }
             boolean isUpdated = updateGame(game, input);
@@ -53,10 +66,12 @@ public class GameService {
 
     }
 
-    public int getFrameBeingProcessed() {
-        return this.frameBeingProcessed;
-    }
-
+    /**
+     * Updates the game state
+     * @param bowlingGame
+     * @param input
+     * @return true/false
+     */
     public boolean updateGame(Game bowlingGame, String input) {
         Queue<Frame> frameQueue = bowlingGame.getFramesToBeProcessed();
 
@@ -75,6 +90,7 @@ public class GameService {
             }
         } else if (input.toUpperCase().equals(BowlingConstants.SPARE)) {
             if (frameRolls.size() == 0) {
+                System.out.println("Invalid input! First roll in a frame cannot be spare!");
                 return false;
             }
             frameRolls.add("/");
@@ -123,6 +139,11 @@ public class GameService {
         return true;
     }
 
+    /**
+     * Updates game state for previous frames
+     * @param bowlingGame
+     * @param frameQueue
+     */
     public void updateGameFromQueue(Game bowlingGame, Queue<Frame> frameQueue) {
         int size = frameQueue.size();
         while (size-- > 0) {
@@ -180,9 +201,17 @@ public class GameService {
         }
     }
 
+    public int getFrameBeingProcessed() {
+        return this.frameBeingProcessed;
+    }
+
+    /**
+     * prints scoreboard
+     * @param bowlingGame
+     */
     public void printScorecard(Game bowlingGame) {
         System.out.println(" ");
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------------------");
         System.out.println("1\t\t2\t\t3\t\t4\t\t5\t\t6\t\t7\t\t8\t\t9\t\t10");
         Frame[] frames = bowlingGame.getFrames();
         int sum = 0;
@@ -223,6 +252,6 @@ public class GameService {
             System.out.print(sum + "\t\t");
         }
         bowlingGame.setTotalScore(sum);
-        System.out.println("\n-------------------------------------------------------------------");
+        System.out.println("\n-----------------------------------------------------------------------------------------------");
     }
 }
